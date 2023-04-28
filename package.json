@@ -5,7 +5,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@apollo/client": "^3.4.17",
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.21.4",
     "@ferlab/ui": "^5.4.6",
     "@loadable/component": "^5.15.2",
     "@nivo/pie": "^0.79.1",
