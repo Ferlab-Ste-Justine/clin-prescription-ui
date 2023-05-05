@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { SyntheticEvent, useEffect, useRef } from 'react';
 import intl from 'react-intl-universal';
 import { useDispatch } from 'react-redux';
 import {
@@ -30,10 +30,31 @@ import { fetchConfig, fetchPractitionerRole } from 'store/user/thunks';
 import { LANG } from 'utils/constants';
 import ROUTES from 'utils/routes';
 const loadableProps = { fallback: <Spinner size="large" /> };
+import { logout } from 'auth/keycloak';
 const PrescriptionEntity = loadable(() => import('views/Prescriptions/Entity'), loadableProps);
 // const PrescriptionSearch = loadable(() => import('views/Prescriptions/Search'), loadableProps);
+import { keycloakConfig } from 'utils/config';
 
 const HomePage = loadable(() => import('views/Home'), loadableProps);
+// window.onunload = function (e) {
+//   e.preventDefault();
+//   alert('logout onunload');
+//   logout();
+// };
+
+const useUnload = (fn: () => void) => {
+  const callback = useRef(fn);
+
+  useEffect(() => {
+    callback.current = fn;
+  }, [fn]);
+
+  useEffect(() => {
+    const onUnload = callback.current;
+    window.addEventListener('beforeunload', onUnload);
+    return () => window.removeEventListener('beforeunload', onUnload);
+  }, []);
+};
 
 const App = () => {
   const lang = useLang();
@@ -55,6 +76,41 @@ const App = () => {
     }
     // eslint-disable-next-line
   }, [keycloakIsReady, keycloak]);
+
+  useUnload(() => {
+    console.log('dismount logout');
+    const httprequest = new XMLHttpRequest();
+    const userid = keycloak.loadUserInfo();
+    console.log(`${keycloakConfig.url}realms/clin/protocol/openid-connect/logout`);
+    window.open(`${keycloakConfig.url}realms/clin/protocol/openid-connect/logout`);
+
+    Promise.resolve(logout());
+
+    httprequest.open(
+      'GET',
+      `${keycloakConfig.url}realms/clin/protocol/openid-connect/logout`,
+      false,
+    );
+    httprequest.send();
+
+    // fetch(`${keycloakConfig.url}realms/clin/protocol/openid-connect/logout`, {
+    //   method: 'GET',
+    // }).then((response: Response) => {
+    //   console.log('response : ', response);
+    // });
+    // const redirect = {
+    //   redirectUri: `${window.location.origin}/`,
+    // };
+    // Promise.resolve(keycloak.logout(redirect));
+    // logout();
+    keycloak.clearToken();
+  });
+  keycloak.loadUserInfo().then((res) => {
+    // @ts-ignore
+    window.user = res;
+  });
+  //@ts-ignore
+  window.keycloak = keycloak;
 
   return (
     <ConfigProvider

@@ -22,23 +22,23 @@ const ProtectedRoute = ({ roles, children, layout, ...routeProps }: OwnProps) =>
   const keycloakIsReady = keycloak && initialized;
   const showLogin = keycloakIsReady && !keycloak.authenticated;
   const { user } = useUser();
-
-  if (!keycloakIsReady) {
-    return <Spinner size={'large'} />;
-  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
 
   if (showLogin) {
     return <LoginWrapper Component={<Spinner size={'large'} />} />;
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { decodedRpt } = useRpt();
+
+  if (!keycloakIsReady || user.practitionerRoles.length === 0) {
+    return <Spinner size={'large'} />;
+  }
 
   const code = !!user.practitionerRoles?.find(
     (role) =>
       !!role.code?.find(
         (code) =>
-          !!code.coding?.find((coding) => coding.code === '405277008' || coding.code === 'doctor'),
+          !!code.coding?.find((coding) => coding.code === '405277009' || coding.code === 'doctor'),
       ),
   );
 
