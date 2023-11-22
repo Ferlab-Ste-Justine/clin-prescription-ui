@@ -368,6 +368,7 @@
   "screen.prescription.entity.patientContent.patientId" : "ID patient",
   "screen.prescription.entity.request.createdOn" : "Créée le",
   "screen.prescription.entity.request.id" : "ID requête",
+  "screen.prescription.entity.request.ministry.code": "Code du ministère",
   "screen.prescription.entity.request.links" : "Liens",
   "screen.prescription.entity.request.requester" : "Requérant",
   "screen.prescription.entity.request.sampleid" : "ID échantillon",

@@ -25,6 +25,11 @@ const getRequestColumns = (): TableColumnType<Record<string, any>>[] => [
     render: (id) => extractServiceRequestId(id),
   },
   {
+    key: 'ministry_code',
+    title: intl.get('screen.prescription.entity.request.ministry.code'),
+    render: () => '',
+  },
+  {
     key: 'status',
     dataIndex: 'status',
     title: intl.get('screen.prescription.entity.request.status'),
@@ -55,11 +60,6 @@ const getRequestColumns = (): TableColumnType<Record<string, any>>[] => [
       const specimen = data.specimen?.find((specimen) => 'parent' in specimen.resource);
       return specimen ? specimen?.resource.accessionIdentifier.value : TABLE_EMPTY_PLACE_HOLDER;
     },
-  },
-  {
-    key: 'links',
-    title: intl.get('screen.prescription.entity.request.links'),
-    render: () => <></>, // (data: PatientRequest) => <Links patientId={patientId} prescriptionId={data.id} />,
   },
 ];
 

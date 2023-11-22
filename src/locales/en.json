@@ -372,6 +372,7 @@
   "screen.prescription.entity.request.requester": "Requesting Doctor",
   "screen.prescription.entity.request.sampleid": "Sample ID",
   "screen.prescription.entity.request.status": "Status",
+  "screen.prescription.entity.request.ministry.code": "Ministry Code",
   "screen.prescription.entity.see.variant": "See variants",
   "screen.sequencingsearch.table.request": "Request",
   "screen.sequencingsearch.table.sample": "Sample",
