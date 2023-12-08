@@ -57,6 +57,7 @@ resources:
     # branch_regex: 'feature/(?P<feature>.*)'
     branch_regex: '(feat|fix|refactor|perf)(?:\/)(?P<feature>[a-z]{2,8}-[0-9]+[a-z0-9\-]*)$'           
 
+
 - name: git-prescription-ui
   type: git
   icon: github
