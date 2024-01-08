@@ -509,6 +509,18 @@
       "actions": {
         "download": "Download documents"
       }
+    },
+    "parent": {
+      "info": {
+        "moment": {
+          "justify": {
+            "never": "Ex: Death, adoption...",
+            "later": "Ex: Travel..."
+          },
+          "mother": "Enter information about the mother",
+          "father": "Enter information about the father"
+        }
+      }
     }
   }
 }
