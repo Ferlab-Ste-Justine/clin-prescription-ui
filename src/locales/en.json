@@ -493,5 +493,19 @@
   "ramq": "RAMQ",
   "save": "Save",
   "prescription.parent.identification.review.permanent.absence": "Permanent absence",
-  "prescription.parent.identification.review.temporary.absence": "Temporary absence"
+  "prescription.parent.identification.review.temporary.absence": "Temporary absence",
+  "prescription": {
+    "parent": {
+      "info": {
+        "moment": {
+          "justify": {
+            "never": "Ex: Death, adoption...",
+            "later": "Ex: Travel..."
+          },
+          "mother": "Enter information about the mother",
+          "father": "Enter information about the father"
+        }
+      }
+    }
+  }
 }
