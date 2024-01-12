@@ -494,8 +494,8 @@
       "info": {
         "moment": {
           "justify": {
-            "never": "Ex: Décès, adoption...",
-            "later": "Ex: En voyage..."
+            "never": "Ex : Décès, adoption...",
+            "later": "Ex : En voyage..."
           },
           "mother": "Saisir les informations sur la mère",
           "father": "Saisir les informations sur le père"
