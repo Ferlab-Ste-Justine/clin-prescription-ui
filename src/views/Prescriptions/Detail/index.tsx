@@ -1,6 +1,6 @@
 import intl from 'react-intl-universal';
-import { DownloadOutlined, MedicineBoxOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Row } from 'antd';
+import { MedicineBoxOutlined } from '@ant-design/icons';
+import { Card, Col, Row } from 'antd';
 import { useServiceRequestEntity } from 'graphql/prescriptions/actions';
 import { GraphqlBackend } from 'providers';
 import ApolloProvider from 'providers/ApolloProvider';
@@ -8,6 +8,8 @@ import ApolloProvider from 'providers/ApolloProvider';
 import ContentWithHeader from 'components/Layout/ContentWithHeader';
 import ScrollContentWithFooter from 'components/Layout/ScrollContentWithFooter';
 import Forbidden from 'components/Results/Forbidden';
+
+import DownloadButton from '../components/DownloadButton';
 
 import AnalysisCard from './AnalysisCard';
 import ClinicalInformationCard from './ClinicalInformationCard';
@@ -26,17 +28,12 @@ const PrescriptionDetail = ({ prescriptionId }: OwnProps) => {
   if (!loading && !prescription) {
     return <Forbidden />;
   }
-
   return (
     <ContentWithHeader
       headerProps={{
         icon: <MedicineBoxOutlined />,
         title: intl.get('screen.prescription.entity.title', { id: prescriptionId }),
-        actions: [
-          <Button key="download-docs" type="primary" icon={<DownloadOutlined />}>
-            {intl.get('download.documents')}
-          </Button>,
-        ],
+        actions: [<DownloadButton key="download-docs" prescriptionId={prescriptionId} />],
       }}
     >
       <ScrollContentWithFooter className={styles.prescriptionEntityWrapper} container>
