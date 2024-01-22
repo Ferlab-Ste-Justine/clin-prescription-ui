@@ -3,14 +3,15 @@ import intl from 'react-intl-universal';
 import { DeleteOutlined } from '@ant-design/icons';
 import Empty from '@ferlab/ui/core/components/Empty';
 import { Button, List, Modal, Transfer, Typography } from 'antd';
+import { HpoApi } from 'api/hpo';
 import { isEmpty } from 'lodash';
 
+import { IHpoCount } from '../../../api/hpo/models';
 import { getFlattenTree } from '../helper';
 import { TreeNode } from '../types';
 import PhenotypeTree from '..';
 
 import styles from './index.module.scss';
-import { HpoApi } from 'api/hpo';
 
 interface OwnProps {
   visible?: boolean;
@@ -22,7 +23,7 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
   const [targetKeys, setTargetKeys] = useState<string[]>([]);
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const [isVisible, setIsVisible] = useState(visible);
-  const [hpoCount, setHpoCount] = useState(null);
+  const [hpoCount, setHpoCount] = useState<number | null>(null);
 
   useEffect(() => {
     if (visible !== isVisible) {
@@ -37,8 +38,7 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
   }, [isVisible]);
 
   useEffect(() => {
-    HpoApi.getTotal()
-      .then(({ count }: any) => setHpoCount(count));
+    HpoApi.getTotal().then((data) => setHpoCount((data as IHpoCount).count));
   }, []);
 
   const handleCancel = () => {

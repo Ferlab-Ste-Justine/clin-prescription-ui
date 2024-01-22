@@ -2,7 +2,7 @@ import { sendRequestWithRpt } from 'api';
 
 import EnvironmentVariables from 'utils/EnvVariables';
 
-import { IHpoPayload } from './models';
+import { IHpoCount, IHpoPayload } from './models';
 
 const HPO_SERVICE_URL = EnvironmentVariables.configFor('ARRANGER_API');
 
@@ -35,18 +35,15 @@ const searchHPOByAncestorId = (hpoId: string, size = 1000, after?: string) =>
     },
   });
 
-
-const getTotal = async () => {
-  return await sendRequestWithRpt({
+const getTotal = async () =>
+  await sendRequestWithRpt({
     method: 'GET',
     url: `${HPO_SERVICE_URL}/hpo/count`,
-  }).then(({ data, error } ) => {
-    if(!error) {
-      return data
+  }).then(({ data, error }) => {
+    if (!error) {
+      return data;
     }
-  })
-
-}
+  });
 export const HpoApi = {
   searchHpos,
   searchHPOByAncestorId,
