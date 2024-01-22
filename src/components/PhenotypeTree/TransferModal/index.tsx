@@ -22,7 +22,7 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
   const [targetKeys, setTargetKeys] = useState<string[]>([]);
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const [isVisible, setIsVisible] = useState(visible);
-  const [hpoCount, setHpoCount] = useState(null)
+  const [hpoCount, setHpoCount] = useState(null);
 
   useEffect(() => {
     if (visible !== isVisible) {
@@ -55,6 +55,17 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
   const getSelectedNodes = () =>
     getFlattenTree(treeData).filter(({ key }) => targetKeys.includes(key));
 
+  const renderHeader = () => {
+    if (hpoCount) {
+      return (
+        <span>
+          {hpoCount - targetKeys.length} {intl.get('prescription.phenotypes.header.elements')}
+        </span>
+      );
+    }
+    return null;
+  };
+
   return (
     <Modal
       visible={isVisible}
@@ -86,11 +97,7 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
         onSelectChange={(s, t) => {
           targetKeys.filter((el) => !t.includes(el));
         }}
-        selectAllLabels={[
-          () => (
-            <span>{hpoCount! - targetKeys.length} elements</span>
-          ),
-        ]}
+        selectAllLabels={[() => renderHeader()]}
         dataSource={getFlattenTree(treeData)}
         operationStyle={{ visibility: 'hidden', width: '5px' }}
         render={(item) => item.title}
