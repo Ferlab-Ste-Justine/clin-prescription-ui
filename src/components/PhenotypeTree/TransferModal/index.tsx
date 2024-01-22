@@ -10,6 +10,7 @@ import { TreeNode } from '../types';
 import PhenotypeTree from '..';
 
 import styles from './index.module.scss';
+import { HpoApi } from 'api/hpo';
 
 interface OwnProps {
   visible?: boolean;
@@ -21,6 +22,7 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
   const [targetKeys, setTargetKeys] = useState<string[]>([]);
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const [isVisible, setIsVisible] = useState(visible);
+  const [hpoCount, setHpoCount] = useState(null)
 
   useEffect(() => {
     if (visible !== isVisible) {
@@ -33,6 +35,11 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
       onVisibleChange && onVisibleChange(isVisible);
     }
   }, [isVisible]);
+
+  useEffect(() => {
+    HpoApi.getTotal()
+      .then(({ count }: any) => setHpoCount(count));
+  }, []);
 
   const handleCancel = () => {
     setIsVisible(false);
@@ -79,6 +86,11 @@ const PhenotypeModal = ({ visible = false, onApply, onVisibleChange }: OwnProps)
         onSelectChange={(s, t) => {
           targetKeys.filter((el) => !t.includes(el));
         }}
+        selectAllLabels={[
+          () => (
+            <span>{hpoCount! - targetKeys.length} elements</span>
+          ),
+        ]}
         dataSource={getFlattenTree(treeData)}
         operationStyle={{ visibility: 'hidden', width: '5px' }}
         render={(item) => item.title}
