@@ -21,11 +21,9 @@ const { Title } = Typography;
 
 import { useEffect, useState } from 'react';
 import Modal from 'antd/lib/modal/Modal';
-import { PrescriptionFormApi } from 'api/form';
+import DownloadButton from 'views/Prescriptions/components/DownloadButton';
 
 import { usePrescriptionForm } from 'store/prescription';
-import { HTTP_HEADERS, MIME_TYPES } from 'utils/constants';
-import { downloadFile, extractFilename } from 'utils/helper';
 import { DYNAMIC_ROUTES } from 'utils/routes';
 
 import styles from './index.module.scss';
@@ -44,19 +42,6 @@ const Home = () => {
   useEffect(() => {
     setIsVisible(!!prescriptionId);
   }, [prescriptionId]);
-
-  const handleDownload = () => {
-    PrescriptionFormApi.downloadDocuments(prescriptionId!).then(({ data, response }) => {
-      const fileName = extractFilename(
-        response.headers[HTTP_HEADERS.CONTENT_DISPOSITION],
-        `${prescriptionId!}.pdf`,
-      );
-      const blob = new Blob([data as BlobPart], {
-        type: MIME_TYPES.APPLICATION_PDF,
-      });
-      downloadFile(blob, fileName);
-    });
-  };
 
   const clearPrescriptionId = () =>
     dispatch(prescriptionFormActions.saveCreatedPrescription(undefined));
@@ -134,9 +119,10 @@ const Home = () => {
             </p>
           </Space>
           <Space>
-            <Button key="download" type="primary" onClick={handleDownload}>
-              {intl.get('prescription.submitted.actions.download')}
-            </Button>
+            <DownloadButton
+              prescriptionId={prescriptionId!}
+              text={intl.get('prescription.submitted.actions.download')}
+            />
             <Button key="close" onClick={handleClose}>
               {intl.get('close')}
             </Button>
