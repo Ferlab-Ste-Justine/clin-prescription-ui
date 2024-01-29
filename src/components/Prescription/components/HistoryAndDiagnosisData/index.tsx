@@ -83,12 +83,12 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
     <div className={styles.historyAndDiagnosisHypSelect}>
       <Form.Item>
         <Form.Item
-          label="Histoire familiale"
+          label={intl.get('prescription.historyStep.form.family.label')}
           name={getName(HISTORY_AND_DIAG_FI_KEY.REPORT_HEALTH_CONDITIONS)}
           valuePropName="checked"
           className="noMarginBtm"
         >
-          <Checkbox>Rapporter des conditions de santé pertinentes</Checkbox>
+          <Checkbox>{intl.get('prescription.historyStep.form.family.checkbox')}</Checkbox>
         </Form.Item>
         <Form.Item
           noStyle
@@ -103,7 +103,7 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
               <Form.Item className={cx('noMarginBtm', styles.healthConditionsWrapper)}>
                 <Form.Item {...hiddenLabelConfig} className="noMarginBtm">
                   <ProLabel
-                    title="Indiquer au moins une condition de santé et son lien parental"
+                    title={intl.get('prescription.historyStep.form.family.healthCondition.label')}
                     colon
                     requiredMark
                     size="small"
@@ -121,7 +121,7 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
                               condition[HEALTH_CONDITION_ITEM_KEY.PARENTAL_LINK],
                           )
                         ) {
-                          return Promise.reject(new Error('Entrer au moins 1 condition de santé'));
+                          return Promise.reject(new Error(intl.get('prescription.historyStep.form.family.healthCondition.error')));
                         }
                       },
                     },
@@ -142,16 +142,16 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
                                 rules={key > 0 ? defaultFormItemsRules : undefined}
                                 name={[name, HEALTH_CONDITION_ITEM_KEY.CONDITION]}
                               >
-                                <Input placeholder="Condition de santé" onChange={resetListError} />
+                                <Input placeholder={intl.get('prescription.historyStep.form.family.healthCondition.placeholder')} onChange={resetListError} />
                               </Form.Item>
                               <Form.Item
                                 {...restField}
                                 rules={key > 0 ? defaultFormItemsRules : undefined}
                                 name={[name, HEALTH_CONDITION_ITEM_KEY.PARENTAL_LINK]}
                               >
-                                <Select placeholder="Lien parental" onChange={resetListError}>
+                                <Select placeholder={intl.get('prescription.historyStep.form.family.healthCondition.parentalLink')} onChange={resetListError}>
                                   {formConfig?.history_and_diagnosis.parental_links.map((link) => (
-                                    <Select.Option key={link.value} value={link.value}>
+                                    <Select.Option key={link.value} value={link.value} title={null}>
                                       {link.name}
                                     </Select.Option>
                                   ))}
@@ -169,12 +169,12 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
                         <Form.ErrorList errors={errors} />
                       </Form.Item>
                       {getFieldValue(
-                        getName(
-                          HISTORY_AND_DIAG_FI_KEY.HEALTH_CONDITIONS,
-                          0,
-                          HEALTH_CONDITION_ITEM_KEY.CONDITION,
-                        ),
-                      ) &&
+                          getName(
+                            HISTORY_AND_DIAG_FI_KEY.HEALTH_CONDITIONS,
+                            0,
+                            HEALTH_CONDITION_ITEM_KEY.CONDITION,
+                          ),
+                        ) &&
                         getFieldValue(
                           getName(
                             HISTORY_AND_DIAG_FI_KEY.HEALTH_CONDITIONS,
@@ -189,7 +189,7 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
                               onClick={() => add({ condition: '', parental_link: undefined })}
                               icon={<PlusOutlined />}
                             >
-                              Ajouter
+                              {intl.get('component.phenotypeTree.modal.okText')}
                             </Button>
                           </Form.Item>
                         )}
@@ -202,35 +202,35 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
         </Form.Item>
       </Form.Item>
       <Form.Item
-        label="Présence de consanguinité"
+        label={intl.get('prescription.historyStep.form.family.blood.label')}
         name={getName(HISTORY_AND_DIAG_FI_KEY.HAS_INBREEDING)}
       >
         <Radio.Group>
           <Radio value={false}>{intl.get('no')}</Radio>
           <Radio value={true}>{intl.get('yes')}</Radio>
-          <Radio value={undefined}>NA</Radio>
+          <Radio value={undefined}>{intl.get('na')}</Radio>
         </Radio.Group>
       </Form.Item>
       <Form.Item
-        label="Ethnicité"
+        label={intl.get('prescription.history.diagnosis.review.label.ethnicity')}
         name={getName(HISTORY_AND_DIAG_FI_KEY.ETHNICITY)}
         wrapperCol={{ lg: 8, xl: 8, xxl: 6 }}
       >
-        <Select placeholder="Sélectionner">
+        <Select placeholder={intl.get('prescription.add.parent.modal.select')}>
           {formConfig?.history_and_diagnosis.ethnicities.map((eth) => (
-            <Select.Option key={eth.value} value={eth.value}>
+            <Select.Option key={eth.value} value={eth.value} title={null}>
               {eth.name}
             </Select.Option>
           ))}
         </Select>
       </Form.Item>
       <Form.Item
-        label="Hypothèse diagnostique"
+        label={intl.get("prescription.history.diagnosis.review.label.hypothesis")}
         name={getName(HISTORY_AND_DIAG_FI_KEY.DIAGNOSIS_HYPOTHESIS)}
         rules={defaultFormItemsRules}
         className="noMarginBtm"
       >
-        <Input.TextArea rows={3} placeholder="Indications" data-cy="InputHypothesis" />
+        <Input.TextArea rows={3} placeholder={intl.get('prescription.historyStep.form.family.inputHypothesis.label')} data-cy="InputHypothesis" />
       </Form.Item>
     </div>
   );

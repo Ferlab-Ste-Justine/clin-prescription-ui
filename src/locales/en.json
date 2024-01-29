@@ -527,6 +527,27 @@
       "header": {
         "elements": "elements"
       }
+    },
+    "historyStep": {
+      "form": {
+        "family": {
+          "label": "Family History",
+          "checkbox": "Report Relevant Health Conditions",
+          "healthCondition": {
+            "label": "Specify at least one health condition and its parental link",
+            "error": "Enter at least 1 health condition",
+            "placeholder": "Health Condition",
+            "parentalLink": "Parental Link"
+          },
+          "blood": {
+            "label": "Presence of Consanguinity"
+          },
+          "inputHypothesis": {
+            "label": "Indications"
+          }
+        }
+      }
     }
-  }
+  },
+  "na": "NA"
 }

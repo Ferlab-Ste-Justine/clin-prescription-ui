@@ -119,6 +119,7 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                                       key={age.value}
                                       value={age.value}
                                       data-cy={`SelectOption${age.value}`}
+                                      title={null}
                                     >
                                       {age.name}
                                     </Select.Option>
