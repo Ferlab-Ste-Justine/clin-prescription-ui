@@ -104,6 +104,12 @@ const PhenotypeTree = ({
             options={currentOptions.map(({ name, hpo_id }) => ({ label: name, value: hpo_id }))}
             onChange={handleHpoSearchTermChanged}
             onSelect={(value: string) => {
+              const currentOptionsAsNodes = currentOptions
+                .map((option) => hpoToTreeNode(option))
+                .filter((option) => treeNodes.findIndex((n) => n.key === option.key) === -1);
+
+              if (currentOptions.length > 0) setTreeNodes(treeNodes.concat(currentOptionsAsNodes));
+
               addTargetKey && addTargetKey(value);
             }}
           />
