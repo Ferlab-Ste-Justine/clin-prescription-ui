@@ -9,6 +9,7 @@ import { isEmpty } from 'lodash';
 import { defaultFormItemsRules } from 'components/Prescription/Analysis/AnalysisForm/ReusableSteps/constant';
 import {
   checkShouldUpdate,
+  getFieldValue,
   getNamePath,
   resetFieldError,
   setFieldValue,
@@ -78,6 +79,22 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
 
   const resetListError = () =>
     resetFieldError(form, getName(HISTORY_AND_DIAG_FI_KEY.HEALTH_CONDITIONS));
+
+  const healthConditionsAddIsDisabled = () => {
+    const formFieldValueItems = getFieldValue(
+      form,
+      getName(HISTORY_AND_DIAG_FI_KEY.HEALTH_CONDITIONS),
+    );
+    if (Array.isArray(formFieldValueItems) && formFieldValueItems.length > 0) {
+      const lastItem = formFieldValueItems[formFieldValueItems.length - 1];
+      return (
+        !lastItem[HEALTH_CONDITION_ITEM_KEY.CONDITION] ||
+        !lastItem[HEALTH_CONDITION_ITEM_KEY.PARENTAL_LINK]
+      );
+    }
+
+    return true;
+  };
 
   return (
     <div className={styles.historyAndDiagnosisHypSelect}>
@@ -168,31 +185,19 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
                       <Form.Item noStyle>
                         <Form.ErrorList errors={errors} />
                       </Form.Item>
-                      {getFieldValue(
-                        getName(
-                          HISTORY_AND_DIAG_FI_KEY.HEALTH_CONDITIONS,
-                          0,
-                          HEALTH_CONDITION_ITEM_KEY.CONDITION,
-                        ),
-                      ) &&
-                        getFieldValue(
-                          getName(
-                            HISTORY_AND_DIAG_FI_KEY.HEALTH_CONDITIONS,
-                            0,
-                            HEALTH_CONDITION_ITEM_KEY.PARENTAL_LINK,
-                          ),
-                        ) && (
-                          <Form.Item {...hiddenLabelConfig} className="noMarginBtm">
-                            <Button
-                              type="link"
-                              className={styles.addHealthCondition}
-                              onClick={() => add({ condition: '', parental_link: undefined })}
-                              icon={<PlusOutlined />}
-                            >
-                              Ajouter
-                            </Button>
-                          </Form.Item>
-                        )}
+                      {
+                        <Form.Item {...hiddenLabelConfig} className="noMarginBtm">
+                          <Button
+                            type="link"
+                            disabled={healthConditionsAddIsDisabled()}
+                            className={styles.addHealthCondition}
+                            onClick={() => add({ condition: '', parental_link: undefined })}
+                            icon={<PlusOutlined />}
+                          >
+                            Ajouter
+                          </Button>
+                        </Form.Item>
+                      }
                     </>
                   )}
                 </Form.List>
