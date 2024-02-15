@@ -53,8 +53,8 @@ export const setInitialValues = (
 };
 
 export const getFieldValue = (form: FormInstance, namePath: NamePath) => {
-  const formFieldValue = form.getFieldsValue();
-  return namePath.reduce((value: any, name: any) => value[name], formFieldValue);
+  const formFieldValue = form.getFieldsValue() || {};
+  return namePath.reduce((value: any, name: any) => value[name] ?? {}, formFieldValue);
 };
 
 export const checkShouldUpdate = (previousData: any, currentData: any, paths: NamePath[]) =>
