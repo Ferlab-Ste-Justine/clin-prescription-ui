@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import intl from 'react-intl-universal';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import ProLabel from '@ferlab/ui/core/components/ProLabel';
@@ -28,12 +28,27 @@ interface OwnProps {
 const ObservedSignsList = ({ form, getName }: OwnProps) => {
   const formConfig = usePrescriptionFormConfig();
   const [isPhenotypeModalVisible, setIsPhenotypeModalVisible] = useState(false);
+  const [unboservedSigns, setUnobservedSigns] = useState<string[]>([]);
+  const notObservedSignsField = Form.useWatch(
+    getName(CLINICAL_SIGNS_FI_KEY.NOT_OBSERVED_SIGNS),
+    form,
+  );
 
   const isDefaultHpo = (hpoValue: string) =>
     !!formConfig?.clinical_signs.default_list.find(({ value }) => value === hpoValue);
 
+  const isAlreadyUnobserved = (hpoValue: string) => unboservedSigns.indexOf(hpoValue) > -1;
+
   const getNode = (index: number): IClinicalSignItem =>
     form.getFieldValue(getName(CLINICAL_SIGNS_FI_KEY.SIGNS))[index];
+
+  useEffect(() => {
+    const notObserved =
+      (form.getFieldValue(
+        getName(CLINICAL_SIGNS_FI_KEY.NOT_OBSERVED_SIGNS),
+      ) as IClinicalSignItem[]) || [];
+    setUnobservedSigns(notObserved.map((sign) => sign[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE]));
+  }, [notObservedSignsField]);
 
   return (
     <Space direction="vertical">
@@ -61,6 +76,9 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                   const isDefaultHpoTerm = isDefaultHpo(
                     hpoNode[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE],
                   );
+                  const checkBoxShouldBeDisabled = isAlreadyUnobserved(
+                    hpoNode[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE],
+                  );
 
                   return (
                     <div key={key} className={styles.hpoFormItem}>
@@ -71,6 +89,7 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                           valuePropName="checked"
                         >
                           <Checkbox
+                            disabled={checkBoxShouldBeDisabled}
                             value={true}
                             data-cy={`Observed${hpoNode[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE]}`}
                           >
