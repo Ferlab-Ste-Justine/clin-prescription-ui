@@ -28,7 +28,7 @@ interface OwnProps {
 const ObservedSignsList = ({ form, getName }: OwnProps) => {
   const formConfig = usePrescriptionFormConfig();
   const [isPhenotypeModalVisible, setIsPhenotypeModalVisible] = useState(false);
-  const [unboservedSigns, setUnobservedSigns] = useState<string[]>([]);
+  const [notObservedSigns, setNotObservedSigns] = useState<string[]>([]);
   const notObservedSignsField = Form.useWatch(
     getName(CLINICAL_SIGNS_FI_KEY.NOT_OBSERVED_SIGNS),
     form,
@@ -37,7 +37,7 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
   const isDefaultHpo = (hpoValue: string) =>
     !!formConfig?.clinical_signs.default_list.find(({ value }) => value === hpoValue);
 
-  const isAlreadyUnobserved = (hpoValue: string) => unboservedSigns.indexOf(hpoValue) > -1;
+  const isAlreadyNotObserved = (hpoValue: string) => notObservedSigns.indexOf(hpoValue) > -1;
 
   const getNode = (index: number): IClinicalSignItem =>
     form.getFieldValue(getName(CLINICAL_SIGNS_FI_KEY.SIGNS))[index];
@@ -47,7 +47,7 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
       (form.getFieldValue(
         getName(CLINICAL_SIGNS_FI_KEY.NOT_OBSERVED_SIGNS),
       ) as IClinicalSignItem[]) || [];
-    setUnobservedSigns(notObserved.map((sign) => sign[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE]));
+    setNotObservedSigns(notObserved.map((sign) => sign[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE]));
   }, [notObservedSignsField]);
 
   return (
@@ -76,7 +76,7 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                   const isDefaultHpoTerm = isDefaultHpo(
                     hpoNode[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE],
                   );
-                  const checkBoxShouldBeDisabled = isAlreadyUnobserved(
+                  const checkBoxShouldBeDisabled = isAlreadyNotObserved(
                     hpoNode[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE],
                   );
 
