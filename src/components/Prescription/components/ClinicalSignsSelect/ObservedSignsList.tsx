@@ -49,6 +49,8 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
       ) as IClinicalSignItem[]) || [];
     setNotObservedSigns(notObserved.map((sign) => sign[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE]));
   }, [notObservedSignsField]);
+  
+  const [isRemoveClicked, setIsRemoveClicked] = useState(false);
 
   return (
     <Space direction="vertical">
@@ -59,11 +61,16 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
           rules={[
             {
               validator: async (_, signs: IClinicalSignItem[]) => {
-                if (!signs.some((sign) => sign[CLINICAL_SIGNS_ITEM_KEY.IS_OBSERVED] === true)) {
+                if (
+                  !signs.some((sign) => sign[CLINICAL_SIGNS_ITEM_KEY.IS_OBSERVED] === true) &&
+                  !isRemoveClicked
+                ) {
                   return Promise.reject(
                     new Error(intl.get('prescription.form.signs.observed.error')),
                   );
                 }
+
+                setIsRemoveClicked(false);
               },
             },
           ]}
@@ -79,6 +86,11 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                   const checkBoxShouldBeDisabled = isAlreadyNotObserved(
                     hpoNode[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE],
                   );
+
+                  const removeElement = () => {
+                    setIsRemoveClicked(true);
+                    remove(name);
+                  };
 
                   return (
                     <div key={key} className={styles.hpoFormItem}>
@@ -150,7 +162,7 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                         {!isDefaultHpoTerm && (
                           <CloseOutlined
                             className={styles.removeIcon}
-                            onClick={() => remove(name)}
+                            onClick={() => removeElement()}
                           />
                         )}
                       </Space>
