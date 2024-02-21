@@ -181,7 +181,9 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                   const valuesList = currentValues.map(({ value }) => value);
 
                   nodes
-                    .filter(({ key }) => !valuesList.includes(key))
+                    .filter(
+                      ({ key }) => !valuesList.includes(key) && !notObservedSigns.includes(key),
+                    )
                     .forEach((node) =>
                       add({
                         [CLINICAL_SIGNS_ITEM_KEY.NAME]: extractPhenotypeTitleAndCode(node.title)
