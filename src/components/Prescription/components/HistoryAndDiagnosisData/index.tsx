@@ -105,7 +105,7 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
           valuePropName="checked"
           className="noMarginBtm"
         >
-          <Checkbox>Rapporter des conditions de santé pertinentes</Checkbox>
+          <Checkbox>{intl.get('prescription.history.diagnosis.report.health.conditions')}</Checkbox>
         </Form.Item>
         <Form.Item
           noStyle
@@ -194,7 +194,7 @@ const HistoryAndDiagnosticData = ({ parentKey, form, initialData }: OwnProps) =>
                             onClick={() => add({ condition: '', parental_link: undefined })}
                             icon={<PlusOutlined />}
                           >
-                            Ajouter
+                            {intl.get('prescription.history.diagnosis.add.health.conditions')}
                           </Button>
                         </Form.Item>
                       }
