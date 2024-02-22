@@ -9,7 +9,7 @@ import { capitalize } from 'lodash';
 
 import PhenotypeModal from 'components/PhenotypeTree/TransferModal';
 import { defaultFormItemsRules } from 'components/Prescription/Analysis/AnalysisForm/ReusableSteps/constant';
-import { checkShouldUpdate } from 'components/Prescription/utils/form';
+import { checkShouldUpdate, resetFieldError } from 'components/Prescription/utils/form';
 import { IGetNamePathParams } from 'components/Prescription/utils/type';
 import { usePrescriptionFormConfig } from 'store/prescription';
 import { extractPhenotypeTitleAndCode } from 'utils/hpo';
@@ -49,8 +49,10 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
       ) as IClinicalSignItem[]) || [];
     setNotObservedSigns(notObserved.map((sign) => sign[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE]));
   }, [notObservedSignsField]);
-  
+
   const [isRemoveClicked, setIsRemoveClicked] = useState(false);
+
+  const resetSignsFieldErrors = () => resetFieldError(form, getName(CLINICAL_SIGNS_FI_KEY.SIGNS));
 
   return (
     <Space direction="vertical">
@@ -102,6 +104,7 @@ const ObservedSignsList = ({ form, getName }: OwnProps) => {
                         >
                           <Checkbox
                             disabled={checkBoxShouldBeDisabled}
+                            onClick={() => resetSignsFieldErrors()}
                             value={true}
                             data-cy={`Observed${hpoNode[CLINICAL_SIGNS_ITEM_KEY.TERM_VALUE]}`}
                           >
