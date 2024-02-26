@@ -175,7 +175,7 @@ const MultiSelectExtra = ({ name, label, options }: IParaclinicalExamMultiSelect
 const SimpleInputExtra = ({ name, label }: IParaclinicalExamSimpleInputExtra) => (
   <Form.Item wrapperCol={{ md: 12, lg: 12, xxl: 7 }} colon={false} label={<></>}>
     <ProLabel title={label || 'Sélectionner une valeur'} colon size="small" />
-    <Form.Item name={[name, 'value']} rules={defaultFormItemsRules}>
+    <Form.Item name={[name, 'value']}>
       <Input />
     </Form.Item>
   </Form.Item>
