@@ -539,5 +539,6 @@
         "elements": "éléments"
       }
     }
-  }
+  },
+  "view": "{value} / écran"
 }
