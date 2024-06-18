@@ -22,4 +22,4 @@ REACT_APP_PANELS_FILE=https://s3.cqgc.hsj.rtss.qc.ca/cqgc-staging-app-public/pan
 REACT_APP_FT_beta=true
 
 # Style
-SASS_PATH=/code/src/style/themes/clin
+# SASS_PATH=/code/src/style/themes/clin
