@@ -21,4 +21,4 @@ REACT_APP_FORM_API_URL=https://forms.qa.cqgc.hsj.rtss.qc.ca
 REACT_APP_FT_beta=true
 
 # Style
-SASS_PATH=${PWD}/src/style/themes/clin
+# SASS_PATH=${PWD}/src/style/themes/clin
